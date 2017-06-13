@@ -1,0 +1,21 @@
+article.bespoke-parent{
+	background: url("../../Image/Galaxy.jpeg") no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+}
+section.bespoke-slide.bespoke-active{
+	background-color: rgba(0, 0, 0, 0.6);
+}
+audio{
+	position: absolute;
+	width: 100%;
+	top: 0;
+}
+body{
+	color: white;
+}
+/*div#time{
+	position: absolute;
+	top: 30px;
+	left: 0px;
+}*/

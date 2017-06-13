@@ -1,0 +1,1 @@
+Agar bisa dijalankan, file berikut harus dimasukkan ke folder tertentu.
