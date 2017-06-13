@@ -1,15 +1,17 @@
-# Mini Game
+# MiniGame
+> A [Bespoke.js](http://markdalgleish.com/projects/bespoke.js) presentation, built with [generator-bespoke](https://github.com/markdalgleish/generator-bespoke)
 
-## Synopsis
-Mini Game is a presentation project created by using bespoke.js.
+## View slides locally
 
-## How to run locally
-1. Make sure you have installed node.js.
-2. You have installed gulp. `npm install -g gulp`
-4. Run `gulp serve` from cmd.
+First, ensure you have the following installed:
 
-## Team
-- Antoni Salim [151110199]
-- Chandra Wibowo [151110253]
-- Willy Salim [151110024]
-- Wiwin Salim [151110083]
+1. [Node.js](http://nodejs.org)
+2. [Bower](http://bower.io): `$ npm install -g bower`
+3. [Gulp](http://gulpjs.com): `$ npm install -g gulp`
+
+Then, install dependencies and run the preview server:
+
+```bash
+$ npm install && bower install
+$ gulp serve
+```

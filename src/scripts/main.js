@@ -28,3 +28,10 @@ bespoke.from('article', [
 // debowerify: https://github.com/eugeneware/debowerify
 require('prism');
 
+app.get('/', function (req, res){
+  res.render('index');
+});
+
+app.get('/Music_Tap', function(req, res){
+  res.render('Music_Tap.jade');
+});
