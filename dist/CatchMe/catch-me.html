@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>Catch Me If You Can</title>
+        <link rel="stylesheet" type="text/css" href="../build/build.css">
+
+    <style>
+        #CatchMeContainer {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background-color: black;
+            background-repeat: no-repeat;
+            background-position: 50% 0%;
+            background-size: cover;
+            color: #fff;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        #CatchMeBox{
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            background-image: url("sans.png");
+            background-size: cover;
+            display: none;
+        }
+
+        #button{
+            padding: 30px;
+            font-size: 30px;
+            background-color: #fff;
+            border: none;
+        }
+
+        #button:hover{
+            background-color: #ccc;
+
+        }
+        #CatchMeBox:hover, #button:hover{
+            cursor: pointer;
+        }
+
+        #CatchMeStart{
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+
+    </head>
+    <body>
+        <article>
+            <section>
+                <div id = "CatchMeContainer">
+                    <div id = "CatchMeBox" onclick="catchMeScore()"></div>
+                    <div id = "CatchMeText"></div>
+                    <div id = "CatchMeStart">
+                        <h2 id="CatchMeEnding">Catch Me If You Can</h2>
+                        <button id="button" onclick="startCatchMe()">Here We Go!!!</button>
+                    </div>
+                </div>
+            </section>
+        </article>
+
+        <script type="text/javascript">
+            var catchMeContainer = document.getElementById('CatchMeContainer');
+            var catchMeTopText = document.getElementById('CatchMeText');
+            var catchMeMiddleText = document.getElementById('CatchMeStart');
+            var catchMeBox = document.getElementById('CatchMeBox');
+            var score, lives, caught;
+            var catchMeTiming;
+
+
+            //untuk efek launch yang lebih keren
+
+            catchMeContainer.style.backgroundImage = "url('sans-background.gif')";
+            catchMeMiddleText.style.display = "none";
+            
+            function startScene(){
+                catchMeContainer.style.backgroundImage = "none";
+                catchMeMiddleText.style.display = "block";
+                clearInterval(startTiming);
+            }
+            var startTiming = setInterval(startScene, 6000);
+
+
+
+
+            //ketika tombol START ditekan. karena masih ada kesalahan. lives dimulai dari 50 + 1
+
+            function startCatchMe(){
+                caught = false; score = 0; lives = 51;
+                catchMeMiddleText.style.display = "none";
+                catchMeTiming = setInterval(catchMeProcess, 500);
+                catchMeTopText.style.display = "block";
+            }
+
+
+
+            //proses game yang looping dari variabel catchMeTiming
+
+            function catchMeProcess(){
+                catchMeBox.style.display = "block";
+                if(caught) catchMeBox.style.backgroundImage = "url('sans.png')";
+                if(caught == false) --lives;
+                catchMeTopText.innerHTML = "Lives = " + lives + " Score = " + score;
+                catchMeMoving();
+
+                if (lives == 0){
+                    catchMeTopText.innerHTML = "Lives = " + lives + " Score = " + score;
+                    catchMeGameOver();
+                    clearInterval(catchMeTiming);
+                }
+                
+                caught = false;
+            }
+
+
+
+            //fungsi untuk memindahkan lokasi secara random
+
+            function catchMeMoving(){
+                var x = Math.floor((Math.random() * 460) + 0);
+                var y = Math.floor((Math.random() * 280) + 30);
+                
+                catchMeBox.style.marginLeft = x + "px";
+                catchMeBox.style.marginTop = y + "px";
+            }
+
+
+            //bila sans berhasil ditangkap
+
+            function catchMeScore(){
+                caught = true;
+                score++;
+                catchMeBox.style.backgroundImage = "url('sans-invert.png')";
+            }
+
+
+            //fungsi yang dijalankan bila lives sudah habis
+
+            function catchMeGameOver(){
+                catchMeMiddleText.style.display = "block";
+                catchMeBox.style.display = "none";
+                catchMeTopText.style.display = "none";
+                document.getElementById('CatchMeEnding').innerHTML = "You Score is " + score + " Fellow Human";
+            }
+
+            //Catch Me by Chandra W
+        </script>
+        <script type="text/javascript" src="../build/build.js"></script>
+        
+    </body>
+</html>
