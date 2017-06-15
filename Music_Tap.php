@@ -43,6 +43,14 @@
   <body>
     <article>
       <section>
+        <h2>Welcome to Music Tap!</h2>
+        <p>Slide to continue</p>
+      </section>
+      <section>
+        <h2>How to Play</h2>
+        <p>Just press the key on your keyboard when it enters the bar.</p>
+      </section>
+      <section>
         <h2>Play Music Tap</h2>
         <h3 id = "text" onclick="animateText(this)">Select Music</h2>
         <?php
@@ -56,7 +64,7 @@
             echo "<thead><tr><th>Title</th><th>Duration</th><th>Difficulty</th><th></th></tr></thead>";
             while($row = mysqli_fetch_assoc($result))
             {
-              echo "<tr class=\"musicRecord\"><td><form action=\"./PlayMusic.php\" method=\"GET\"><button id=\"title\" type=\"submit\" name=\"playButton\" value=\"" . $i . "\">" . $row["Title"] . "</button></form></td><td>" . $row["Duration"] . "</td><td>" . $row["Difficulty"] . "</td><td><form action=\"./SetMusic.php\" method=\"GET\"><button id=\"settingButton\" type=\"submit\" name=\"ID\" value=\"" . $i . "\" class=\"btn\"></button></form></td></tr>";
+              echo "<tr class=\"musicRecord\"><td><form action=\"./PlayMusic2.php\" method=\"GET\"><button id=\"title\" type=\"submit\" name=\"playButton\" value=\"" . $i . "\"><img src=\"./Image/playButton.png\" width=\"25\" style=\"display:inline-block;\"><span style=\"vertical-align: 5px;\">" . $row["Title"] . "</span></button></form></td><td>" . $row["Duration"] . "</td><td>" . $row["Difficulty"] . "</td><td><form action=\"./SetMusic.php\" method=\"GET\"><button id=\"settingButton\" type=\"submit\" name=\"ID\" value=\"" . $i . "\" class=\"btn\"></button></form></td></tr>";
               $i++;
             }
           }
@@ -65,9 +73,9 @@
           echo "</table></div>";
         ?>
       </section>
-      <section>
+      <!-- <section>
         <h2>High Score</h2>
-      </section>
+      </section> -->
     </article>
   </body>
   <script src="build/build.js"></script>

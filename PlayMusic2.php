@@ -11,6 +11,7 @@
           $path = $row['Path'];
           $title = $row['Title'];
           $keys = $row['Keywords'];
+          $duration = $row['Duration'];
         }
       }
       else
@@ -29,10 +30,10 @@
       var animation1 = false;
       var min = 0;
       var myInterval = [];
-      var sec = 0;
+      var sec = -3;
       var msec = 0;
       var charindex = 8;
-      var score = 0;
+      var score = 125;
       var keyVal;
       function getMsec(string){
         var miliseconds = Number(string.substring(4, 8));
@@ -48,7 +49,6 @@
       }, 1400);
       setTimeout(function(){
         document.getElementById("music").play();
-        tick();
       }, 3000);
       function tick(){
         if(!animation1)
@@ -67,7 +67,9 @@
               sec = 0;
               min++;
             }
-            document.getElementById("time").innerHTML = min + " : " + sec;
+
+            if(sec >= 0)
+              document.getElementById("time").innerHTML = min + " : " + sec;
           }
         }
       }
@@ -84,7 +86,7 @@
           myInterval[Id] = setInterval(move, 20);
         }
         function move(){
-          if(pos >= 500)
+          if(pos >= 560)
           {
             clearInterval(myInterval[Id]);
             counts[document.getElementById(childId).innerHTML.charCodeAt(0) - 65]--;
@@ -111,7 +113,7 @@
               var delta = Math.abs(document.getElementById("tap" + String(i)).offsetTop - 400);
               if(delta < 50)
               {
-                document.getElementById("debugging").innerHTML = "Recently reset tap : " + String.fromCharCode(index + 65);
+                document.getElementById("debugging").innerHTML = "Key tapped : " + String.fromCharCode(index + 65);
                 document.getElementById("tap" + String(i)).style.display = "none";
                 if(delta < 10)
                 {
@@ -161,7 +163,7 @@
           document.getElementById("tap" + String(i)).style.display = "block";
           document.getElementById("tap" + String(i)).style.left = alphaCoord[ (keyVal[charindex]).charCodeAt() - 65 ] + "px";
           var temp = keyVal.substring(charindex - 8, charindex);
-          var myPos = 0 - Math.abs(getMsec(temp) - getMsec2(min, sec, msec)) * 0.23;
+          var myPos = 600;
           document.getElementById("tap" + String(i)).style.top = String(myPos) + "px";
           document.getElementById("char" + String(i)).innerHTML = keyVal[charindex];
           moveDown("tap" + String(i), myPos, "char" + String(i), i);
@@ -176,7 +178,7 @@
           document.getElementById("tap" + String(ind)).style.display = "block";
           document.getElementById("tap" + String(ind)).style.left = alphaCoord[ (keyVal[charindex]).charCodeAt() - 65 ] + "px";
           var temp = keyVal.substring(charindex - 8, charindex);
-          var myPos = 450 - Math.abs(getMsec(temp) - getMsec2(min, sec, msec)) * 0.23;
+          var myPos = 400 - Math.abs(getMsec(temp) - getMsec2(min, sec, msec)) * 0.25;
           document.getElementById("tap" + String(ind)).style.top = String(myPos) + "px";
           document.getElementById("char" + String(ind)).innerHTML = keyVal[charindex];
           moveDown("tap" + String(ind), myPos, "char" + String(ind), ind);
@@ -189,13 +191,16 @@
           document.getElementById("tap" + String(ind)).display = "none";
         }
       }
+      tick();
     </script>
   </head>
   <body>
     <article>
       <section>
+        <div id="dur"><?php echo $duration; ?></div>
         <input id="myKey" type="hidden" value= <?php echo "\"" . $keys . "\""; ?> >
-        <p id="ScoreContent">Score : <span id="score">0</span></p>
+        <div id="ScoreContent">Score : <span id="score">0</span></div>
+        <form id="ScoreForm" action="./Scoring.php" method="GET"><input type="hidden" name="musicID" value=<?php echo "\"" . $id . "\""; ?> ><input type="hidden" name="myScore" value="0"></form>
         <div id="time">0 : 0</div>
         <audio id="music" controls>
           <source src = <?php echo "\"" . $path . "\""; ?> type="audio/mpeg">
@@ -227,7 +232,7 @@
         <div class="tap" id="tap23"><div id="char23"></div></div>
         <div class="tap" id="tap24"><div id="char24"></div></div>
         <div id="Comment" style="position: absolute; bottom: 0; right: 0;"></div>
-        <div id="debugging" style="position: absolute; bottom:0; left: 0;">a</div>
+        <div id="debugging" style="position: absolute; bottom:0; left: 0;">Key tapped : </div>
         <div></div>
       </section>
     </article>
@@ -237,6 +242,9 @@
   <script type="text/javascript" src="build/js/bootstrap.min.js"></script>
   <script type="text/javascript">
     keyVal = document.getElementById("myKey").value;
+    var endTime = document.getElementById("dur").innerHTML;
+    var endMin = Number(endTime[0]) * 10 + Number(endTime[1]);
+    var endSec =  Number(endTime[3]) * 10 + Number(endTime[4]);
   </script>
 </html>
-<!-- 00000300A00010075S00010850D00020625F00030400A00040175S00040950D00050725F00060500A00070275S00080050D00080825F00090600A00100375S00110150D00110925F00120700A00130475S00140250D00150025F00150800A00160575S00170350D00180125F00180900A00190850S00200450D00210225F00220000A00220775S00230550D00240325F00250000L00250315K00250630L00250945K00260260L00260575K00260890L00270205K00270520J00270835H00280150J00280465H00280780J00290095H00290410J00290720H00300150D00300465F00300780D00310095F00310410D00310725F00320040D00320355F -->
+<!-- 00000300A00010075S00010850D00020625F00030400A00040175S00040950D00050725F00060500A00070275S00080050D00080825F00090600A00100375S00110150D00110925F00120700A00130475S00140250D00150025F00150800A00160575S00170350D00180125F00180900A00190850S00200450D00210225F00220000A00220775S00230550D00240325F00250000L00250315K00250630L00250945K00260260L00260575K00260890L00270205K00270520J00270835H00280150J00280465H00280780J00290095H00290410J00290720H00300150D00300465F00300780D00310095F00310410D00310725F00320040D00320355F00360000G00360300H00360600J00360900K00380300H00380600J00390200K00390600G00400150H00400500J00400800K00410100L00410400F00410900D00420100F00420400G00420700H00430850J00440150K00450150J00450250K00450350L00450550H00480100A00490100S00490500D00500500F00510000A00510900S00520500D00530900F00540900A00550900S00570000D01000000A01010000S01020000D01030000F01040000G01050300A01060300S01070300D -->

@@ -35,7 +35,7 @@ tbody tr:nth-child(odd){
 	background-color: rgba(80, 80, 80, 0.5);
 }
 tr:nth-child(even){
-	background-color: blue;
+	background-color: rgba(80, 80, 125, 0.5);
 }
 td:nth-child(4){
 	margin: 0;
