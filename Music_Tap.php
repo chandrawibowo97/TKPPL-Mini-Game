@@ -56,7 +56,7 @@
             echo "<thead><tr><th>Title</th><th>Duration</th><th>Difficulty</th><th></th></tr></thead>";
             while($row = mysqli_fetch_assoc($result))
             {
-              echo "<tr class=\"musicRecord\"><td>" . $row["Title"] . "</td><td>" . $row["Duration"] . "</td><td>" . $row["Difficulty"] . "</td><td><form action=\"./SetMusic.php\" method=\"GET\"><button type=\"submit\" name=\"ID\" value=\"" . $i . "\" class=\"btn\"></button></form></td></tr>";
+              echo "<tr class=\"musicRecord\"><td><form action=\"./PlayMusic.php\" method=\"GET\"><button id=\"title\" type=\"submit\" name=\"playButton\" value=\"" . $i . "\">" . $row["Title"] . "</button></form></td><td>" . $row["Duration"] . "</td><td>" . $row["Difficulty"] . "</td><td><form action=\"./SetMusic.php\" method=\"GET\"><button id=\"settingButton\" type=\"submit\" name=\"ID\" value=\"" . $i . "\" class=\"btn\"></button></form></td></tr>";
               $i++;
             }
           }

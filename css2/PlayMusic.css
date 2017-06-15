@@ -1,0 +1,46 @@
+body{
+	color: white;
+}
+article.bespoke-parent{
+	background: url("../../Image/Galaxy.jpeg") no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+}
+section.bespoke-slide.bespoke-active{
+	background-color: rgba(0, 0, 0, 0.6);
+}
+.tap{
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 58px;
+	height: 48px;
+	background-color: rgba(50, 50, 50, 0.5);
+	border: 2px solid rgba(50, 100, 50, 0.5);
+	border-radius: 10px;
+}
+.tap div{
+	margin: 10px auto;
+	font-size: 20px;
+	font-weight: bold;
+	color: lightgreen;
+}
+#keyBar{
+	position: absolute;
+	top: 400px;
+	left: 0;
+	background: linear-gradient(to top, rgba(100, 100, 100, 0), rgba(100, 100, 100, 0.5), rgba(100, 100, 100, 0));
+	width: 100%;
+	height: 50px;
+}
+#time{
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+#ScoreContent{
+	position: absolute;
+	top: 0;
+	left: 0;
+}

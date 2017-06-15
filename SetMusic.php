@@ -34,12 +34,12 @@
         return String(integer);
       }
       function fourDigit(integer){
-        if(integer < 1000)
-          return "0" + String(integer);
+        if(integer < 10)
+          return "000" + String(integer);
         else if(integer < 100)
           return "00" + String(integer);
-        else if(integer < 10)
-          return "000" + String(integer);
+        else if(integer < 1000)
+          return "0" + String(integer);
         return String(integer);
       }
       document.getElementById("page").addEventListener("keypress", function(event){
