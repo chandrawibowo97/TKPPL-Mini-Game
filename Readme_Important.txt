@@ -13,6 +13,7 @@ Masukkan ke folder dist > build :
 - css2 (folder)
 - jquery (folder)
 - js (folder)
+- GameTyping (folder)
 
 
 Link untuk gambar

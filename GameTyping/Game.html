@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>Typing Rush</title>
+        <link rel="stylesheet" type="text/css" href="../build/build.css">
+        <style>
+            html, body { 
+                height: 100%; width: 100%;}
+
+            body div#plane {
+                position: fixed;
+                left: -300px;
+                background-size: 250px;
+                width: 300px;
+                height: 100px;
+                background-image: url('Aircraft1.png');
+                background-repeat: no-repeat;
+            }
+            body div#m1 p#w1, div#m2 p#w2, div#m3 p#w3{
+                margin-left: 50px;
+                margin-top: 30px;
+            }
+            body div#m1, div#m2, div#m3{
+                position: fixed;
+                display: none;
+                top: 100px;
+                width: 120px;
+                height: 120px;
+                margin: 0;
+                padding: 0;
+                background-size: 100px;
+                background-image: url(Missile.png);
+                background-repeat: no-repeat;
+            }
+            body div#m1{
+                left: 220px;
+            }
+            body div#m2{
+                left: 400px;
+            }
+            body div#m3{
+                left: 600px;
+            }
+            body div#meledak1, div#meledak2, div#meledak3{
+                position: fixed;
+                display: none;
+                background-size: 80px;
+                top: 400px;
+                width: 80px;
+                height: 80px;
+                background-image: url(Meledak.png);
+                background-repeat: no-repeat;
+            }
+            body div#meledak1{
+                left: 480px;
+            }
+            body div#meledak2{
+                left: 700px;
+            }
+            body div#meledak3{
+                left: 900px;
+            }
+            
+/* plane 2 */
+            body div#plane2{
+                position: fixed;
+                left: 1500px;
+                background-size: 250px;
+                width: 300px;
+                height: 100px;
+                background-image: url('Aircraft2.png');
+                background-repeat: no-repeat;
+            }
+            body div#m12, div#m22, div#m32{
+                position: fixed;
+                display: none;
+                top: 100px;
+                width: 120px;
+                height: 120px;
+                margin: 0;
+                padding: 0;
+                background-size: 100px;
+                background-image: url(Missile2.png);
+                background-repeat: no-repeat;
+            }
+            body div#m12{
+                left: 900px;
+            }
+            body div#m22{
+                left: 700px;
+            }
+            body div#m32{
+                left: 500px;
+            }
+            body div#m12 p#w12, div#m22 p#w22, div#m32 p#w32{
+                margin-left: 60px;
+                margin-top: 30px;
+            }
+            body div#meledak12, div#meledak22, div#meledak32{
+                position: fixed;
+                display: none;
+                background-size: 80px;
+                top: 400px;
+                width: 80px;
+                height: 80px;
+                background-image: url(Meledak.png);
+                background-repeat: no-repeat;
+            }
+            body div#meledak12{
+                left: 620px;
+            }
+            body div#meledak22{
+                left: 420px;
+            }
+            body div#meledak32{
+                left: 230px;
+            }
+            
+            body article section.bespoke-slide{
+                background-color: white;
+                
+            }            
+            body div#btn1 button{
+                border: 2px bold;
+                padding: 3px;
+            }
+            body div#btn1 button h3{
+                margin: 0;
+            }
+        </style>
+        
+<!--     function start      -->
+        <script>
+            var arr = [];
+            document.getElementById('write').addEventListener('keypress', function(event){
+                for(var i = 0;i<arr.length;i++){
+                    var karakter = Number(String.fromCharCode(Event.keyCode))-97;
+                    var str = words("w" + String(i)+1);
+                    var temp = str.substring(-1,str.length);
+                    for(var j = 0;j<str.length;j++){
+                        if(karakter == temp[j]){
+                            str[j].style.color = "green";
+                            var index = j;
+                        }
+                    }
+                    if(index == str.length-1){
+                        document.getElementById('m' + String(i)).style.display = "none";
+                        document.getElementById("meledak" + String(i)).style.display = "none";
+                    }
+                }
+            });
+            
+//   plane 1
+            function words(param){
+                var word = ["area", "building", "chopper", "drop", "enemy", "fire", "gun", "help", "incident", "jet", "knock", "launch", "move", "nightmare", "order", "plane", "quarrel", "rifle", "soldier", "tank", "uniform", "vehicle", "war" , "yell", "zone"];
+                var b = false;
+                var text;
+                do{
+                    var i = Math.floor((Math.random()*100))%25;
+                    text = word[i];
+                    for(var j = 0;j<arr.length;j++){
+                        if(arr[j] == text) b = true;
+                        if(j == arr.length-1) b = false;
+                    }
+                }
+                while(b);
+                arr.push(text);
+                document.getElementById(param).innerHTML = text;
+            }
+            function dropmissile(i){
+                var el = document.getElementById("m" + String(i));
+                el.style.display = "block";
+                var x1 = 200*i, y1 = 100;
+                var inter = setInterval(frame2, 30);
+                words("w" + String(i));
+                function frame2(){
+                    if(y1 == 350){
+                        clearInterval(inter);
+                        el.style.display = "none";
+                        explotion("meledak" + String(i));
+                    }
+                    else{
+                        x1++; y1++;
+                        el.style.top = y1 + 'px';
+                        el.style.left = x1 + 'px';
+                    }
+                }
+            }
+            function explotion(param){
+                var duar = document.getElementById(param);
+                duar.style.display = "block";
+                
+            }
+            function Move(){
+                var i = 1;
+                var elem = document.getElementById("plane");
+                var x = -300;
+                elem.style.top = 5 + 'px';
+                var id = setInterval(frame,10);
+                function frame(){
+                    if(x == 1100){
+                        clearInterval(id);
+                        Move2();
+                    }
+                    if(x == 120){
+                        dropmissile(i);
+                        i++;
+                        x++;
+                        elem.style.left = x + 'px';
+                    }
+                    if(x == 300){
+                        dropmissile(i);
+                        i++;
+                        x++;
+                        elem.style.left = x + 'px';
+                    }
+                    if(x == 510){
+                        dropmissile(i);
+                        i++;
+                        x++;
+                        elem.style.left = x + 'px';
+                    }
+                    else{
+                        x++;
+                        elem.style.left = x + 'px';
+                    }
+                }
+            }
+// Plane 2        
+            function dropmissile2(i){
+                var el = document.getElementById("m" + String(i) + "2");
+                el.style.display = "block";
+                var x1 = 1100-(200*i), y1 = 100;
+                var inter = setInterval(frame2, 30);
+                words("w" + String(i) + "2");
+                function frame2(){
+                    if(y1 == 350){
+                        clearInterval(inter);
+                        el.style.display = "none";
+                        explotion("meledak" + String(i) + "2");
+                    }
+                    else{
+                        x1--; y1++;
+                        el.style.top = y1 + 'px';
+                        el.style.left = x1 + 'px';
+                    }
+                }
+            }
+            function Move2(){
+                var i = 1;
+                var elem = document.getElementById("plane2");
+                var x = 1200;
+                elem.style.top = 5 + 'px';
+                var id = setInterval(frame,10);
+                function frame(){
+                    if(x == -300){
+                        clearInterval(id);
+                    }
+                    if(x == 900){
+                        dropmissile2(i);
+                        i++;
+                        x--;
+                        elem.style.left = x + 'px';
+                    }
+                    if(x == 650){
+                        dropmissile2(i);
+                        i++;
+                        x--;
+                        elem.style.left = x + 'px';
+                    }
+                    if(x == 430){
+                        dropmissile2(i);
+                        i++;
+                        x--;
+                        elem.style.left = x + 'px';
+                    }
+                    else{
+                        x--;
+                        elem.style.left = x + 'px';
+                    }
+                }
+            }
+            function btndisable(){
+                document.getElementById("btn1").style.display = "none";
+                document.getElementById("head").style.display = "none";
+            }
+        </script>
+<!--        function end      -->
+    </head>
+    
+    <body>
+       <article>
+           <section>
+                <div id = 'plane'></div>
+                <div id = 'm1'><p id = 'w1'></p></div>
+                <div id = 'm2'><p id = 'w2'></p></div>
+                <div id = 'm3'><p id = 'w3'></p></div>
+                <div id = 'meledak1'></div>
+                <div id = 'meledak2'></div>
+                <div id = 'meledak3'></div>
+                
+                <div id = 'plane2'></div>
+                <div id = 'm12'><p id = 'w12'></p></div>
+                <div id = 'm22'><p id = 'w22'></p></div>
+                <div id = 'm32'><p id = 'w32'></p></div>
+                <div id = 'meledak12'></div>
+                <div id = 'meledak22'></div>
+                <div id = 'meledak32'></div>
+                
+                <h2 id = "head">Welcome to Typing Rush</h2>
+                <div id = 'btn1' onclick="btndisable()">
+                    <button id = 'start' onclick= "setTimeout(Move(), 2000);"><h3>Start</h3></button>
+                </div>
+                
+                <div><p id = "write"></p></div>
+           </section>
+           <section>
+               
+           </section>
+       </article>
+        <script src="../build/build.js"></script>
+    </body>
+</html>
+
+
