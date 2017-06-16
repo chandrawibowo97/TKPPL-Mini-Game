@@ -40,6 +40,15 @@
             border: none;
         }
 
+        .button{
+            padding: 30px;
+            font-size: 30px;
+            background-color: #fff;
+            border: none;
+            margin: 5px;
+            cursor: pointer;
+        }
+
         #button:hover{
             background-color: #ccc;
 
@@ -62,13 +71,19 @@
         <article>
             <section>
                 <div id = "CatchMeContainer">
-                    <div id = "CatchMeBox" onclick="catchMeScore()"></div>
+                    <div id = "CatchMeBox" onclick="catchMeScore();"></div>
                     <div id = "CatchMeText"></div>
                     <div id = "CatchMeStart">
                         <h2 id="CatchMeEnding">Catch Me If You Can</h2>
-                        <button id="button" onclick="startCatchMe()">Here We Go!!!</button>
+                        <button id="button" onclick="startCatchMe();">Here We Go!!!</button>
                     </div>
                 </div>
+            </section>
+
+            <section>
+                <h2>Want To Leave Already? :(</h2>
+                <button class="button" onclick="location.href='#1';">No</button>
+                <button class="button" onclick="location.href='../index.html';">Yes</button>
             </section>
         </article>
 
