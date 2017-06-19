@@ -5,12 +5,10 @@ Masukkan ke folder dist :
 - SubmitKey.php
 - SetMusic.php
 - PlayMusic.php
+- GameTyping (folder)
 
 Masukkan ke folder src :
 - index.jade
-
-Masukkan ke folder dist
-- GameTyping (folder)
 
 Masukkan ke folder dist > build :
 - css (folder)

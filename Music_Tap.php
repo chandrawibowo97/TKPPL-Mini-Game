@@ -38,6 +38,12 @@
           }
         }
       }
+      function quit(){
+      	window.location.href = "./index.html#2";
+      }
+      function back(){
+      	window.location.href = "./Music_Tap.php#3";
+      }
   </script>
   </head>
   <body>
@@ -48,7 +54,11 @@
       </section>
       <section>
         <h2>How to Play</h2>
-        <p>Just press the key on your keyboard when it enters the bar.</p>
+        <br>
+        <p>Just press the key on your keyboard when the keyword enters the bar.</p>
+        <img src="./Image/Music_Tap_Sample.jpg" width="500">
+        <p>We are only using these keys below to play.</p>
+        <p><img src="./Image/Keyboard.jpg" width="310"></p>
       </section>
       <section>
         <h2>Play Music Tap</h2>
@@ -73,9 +83,12 @@
           echo "</table></div>";
         ?>
       </section>
-      <!-- <section>
-        <h2>High Score</h2>
-      </section> -->
+      <section>
+        <h2>Quit already?</h2>
+    		<button style="background-color: rgba(100, 100, 255, 0.5); width: 60px; height: 50px; padding: 5px; border-radius: 10px;" onclick="quit();">Yes</button>
+        <br>
+    		<button style="background-color: rgba(100, 255, 100, 0.5); width: 60px; height: 50px; padding: 5px; border-radius: 10px;" onclick="back();">No</button>
+      </section>
     </article>
   </body>
   <script src="build/build.js"></script>

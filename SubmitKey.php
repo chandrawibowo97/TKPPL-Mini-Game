@@ -23,6 +23,5 @@
 		header("Location: ./Music_Tap.php");
 		exit();
 	?>
-	00000460a
 </body>
 </html>

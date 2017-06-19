@@ -35,6 +35,7 @@
       var charindex = 8;
       var score = 125;
       var keyVal;
+      var redirect = false;
       function getMsec(string){
         var miliseconds = Number(string.substring(4, 8));
         var seconds = Number(string.substring(2, 4));
@@ -67,9 +68,13 @@
               sec = 0;
               min++;
             }
-
             if(sec >= 0)
               document.getElementById("time").innerHTML = min + " : " + sec;
+            if(sec > endSec && min == endMin && !redirect)
+            {
+              redirect = true;
+              window.location.href = "./Music_Tap.php#3";
+            }
           }
         }
       }
@@ -90,9 +95,13 @@
           {
             clearInterval(myInterval[Id]);
             counts[document.getElementById(childId).innerHTML.charCodeAt(0) - 65]--;
-            score -= 5;
+            if(score - 5 < 0)
+              score = 0;
+            else
+              score -= 5;
             document.getElementById("score").innerHTML = String(score);
             document.getElementById("Comment").innerHTML = "Missed";
+            msec += 2.7;
             generateNew(Id);
           }
           else
@@ -131,6 +140,7 @@
                   score += 3;
                 }
                 counts[index]--;
+                msec += 2.7;
                 clearInterval(myInterval[i]);
                 document.getElementById("score").innerHTML = String(score);
                 generateNew(i);
@@ -139,14 +149,20 @@
             }
             if(i == 24)
             {
-              score -= 5;
+              if(score - 5 < 0)
+                score = 0;
+              else
+                score -= 5;
               document.getElementById("score").innerHTML = String(score);
             }
           }
         }
         else
         {
-          score -= 5;
+          if(score - 5 < 0)
+            score = 0;
+          else
+            score -= 5;
           document.getElementById("score").innerHTML = String(score);
         }
       });
@@ -178,7 +194,7 @@
           document.getElementById("tap" + String(ind)).style.display = "block";
           document.getElementById("tap" + String(ind)).style.left = alphaCoord[ (keyVal[charindex]).charCodeAt() - 65 ] + "px";
           var temp = keyVal.substring(charindex - 8, charindex);
-          var myPos = 400 - Math.abs(getMsec(temp) - getMsec2(min, sec, msec)) * 0.25;
+          var myPos = 400 - Math.abs(getMsec(temp) - getMsec2(min, sec, msec)) * 0.251;
           document.getElementById("tap" + String(ind)).style.top = String(myPos) + "px";
           document.getElementById("char" + String(ind)).innerHTML = keyVal[charindex];
           moveDown("tap" + String(ind), myPos, "char" + String(ind), ind);
@@ -197,12 +213,12 @@
   <body>
     <article>
       <section>
-        <div id="dur"><?php echo $duration; ?></div>
+        <div id="dur" style="display: none;"><?php echo $duration; ?></div>
         <input id="myKey" type="hidden" value= <?php echo "\"" . $keys . "\""; ?> >
         <div id="ScoreContent">Score : <span id="score">0</span></div>
         <form id="ScoreForm" action="./Scoring.php" method="GET"><input type="hidden" name="musicID" value=<?php echo "\"" . $id . "\""; ?> ><input type="hidden" name="myScore" value="0"></form>
         <div id="time">0 : 0</div>
-        <audio id="music" controls>
+        <audio id="music">
           <source src = <?php echo "\"" . $path . "\""; ?> type="audio/mpeg">
         </audio>
         <div id="keyBar"></div>
@@ -247,4 +263,4 @@
     var endSec =  Number(endTime[3]) * 10 + Number(endTime[4]);
   </script>
 </html>
-<!-- 00000300A00010075S00010850D00020625F00030400A00040175S00040950D00050725F00060500A00070275S00080050D00080825F00090600A00100375S00110150D00110925F00120700A00130475S00140250D00150025F00150800A00160575S00170350D00180125F00180900A00190850S00200450D00210225F00220000A00220775S00230550D00240325F00250000L00250315K00250630L00250945K00260260L00260575K00260890L00270205K00270520J00270835H00280150J00280465H00280780J00290095H00290410J00290720H00300150D00300465F00300780D00310095F00310410D00310725F00320040D00320355F00360000G00360300H00360600J00360900K00380300H00380600J00390200K00390600G00400150H00400500J00400800K00410100L00410400F00410900D00420100F00420400G00420700H00430850J00440150K00450150J00450250K00450350L00450550H00480100A00490100S00490500D00500500F00510000A00510900S00520500D00530900F00540900A00550900S00570000D01000000A01010000S01020000D01030000F01040000G01050300A01060300S01070300D -->
+<!--  -->
