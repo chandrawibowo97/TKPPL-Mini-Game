@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" id="write">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>Typing Rush</title>
+        <link rel="stylesheet" type="text/css" href="build/build.css">
+        <link rel="stylesheet" type="text/css" href="build/css/bootstrap.min.css">
+        <style>
+            article.bespoke-parent{
+                background-color: rgba(180, 180, 180, 0.5);
+            }
+            article section.bespoke-slide.bespoke-active{
+                background-color: rgba(240, 240, 240, 0.5);
+            }
+            button.btn{
+                padding: 0;
+            }
+            a{
+                margin: 5px 10px;
+                display: block;
+                color: white;
+                text-decoration: none;
+            }
+            a:hover{
+                color: white;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <article>
+            <section>
+                <h1>Game Over</h1>
+                <h3>Your Score is</h3>
+                <h3 id="score"></h3>
+                <br>
+                <button class="btn btn-success"><a href="./Typing_Rush_Home.html#3">Go Back to Main Menu</a></button>
+            </section>
+        </article>
+    </body>
+    <script src="build/build.js"></script>
+    <script type="text/javascript">
+        document.getElementById("score").innerHTML = localStorage.getItem("score");
+    </script>
+</html>
+
+
+<!--
+What to add :
+Hard difficulty, score passing value and link to go back to homepage.
+-->

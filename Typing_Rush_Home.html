@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" id="write">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>Typing Rush</title>
+        <link rel="stylesheet" type="text/css" href="build/build.css">
+        <link rel="stylesheet" type="text/css" href="build/css/bootstrap.min.css">
+        <style>
+            article.bespoke-parent{
+                background-color: rgba(180, 180, 180, 0.5);
+            }
+            article section.bespoke-slide.bespoke-active{
+                background-color: rgba(240, 240, 240, 0.5);
+            }
+            button.btn{
+                padding: 0;
+            }
+            button div{
+                color: white;
+                width: 80px;
+                height: 30px;
+            }
+            button div p{
+                padding-top: 5px;
+            }
+            button a{
+                text-decoration: none;
+                display: block;
+                color: white;
+            }
+            button a:hover{
+                text-decoration: none;
+                color: white;
+            }
+            button a p{
+                margin: 0;
+                padding: 5px 10px;
+            }
+        </style>
+        <script type="text/javascript">
+            function getValue(val){
+                localStorage.setItem("difficulty", val);
+                window.location.href = "./Typing Rush.html";
+            }
+        </script>
+    </head>
+    
+    <body>
+        <article>
+            <section>
+                <h1>Welcome to Typing Rush!</h1>
+            </section>
+            <section>
+                <ul>
+                    <li><h1>Typing Rush?</h1></li>
+                    <li>Typing Rush is a typing game. You will see strange planes passing on the sky deploying a lot of explosive missiles.</li>
+                    <li>You are going to blow the missiles before they reach the ground.</li>
+                    <li>The game will end if one of them manages to reach the ground.</li>
+                </ul>
+            </section>
+            <section>
+                <h1>Play Typing Rush</h1>
+                <br>
+                <h4>Choose difficulty</h4>
+                <button class="btn btn-success" style="padding: 0;"><div onclick="getValue('easy');" style="display: block;"><p>Easy</p></div></button>
+                <br>
+                <button class="btn btn-danger" style="padding: 0;"><div onclick="getValue('hard');" style="display: block;"><p>Hard</p></div></button>
+                <br>
+                <p>Choose easy for beginners who would like to learn typing skill.</p>
+                <p>Choose hard for moderate typists who seek for challenge.</p>
+            </section>
+            <section>
+                <h1>Wanna out already? :(</h1>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <button class="btn btn-primary"><a href="./index.html#2"><p>Yes</p></a></button>
+                    </div>
+                    <div class="col-xs-6">
+                        <button class="btn btn-warning"><a href="#3"><p>No</p></a></button>
+                    </div>
+                </div>
+            </section>
+
+        </article>
+    </body>
+    <script src="build/build.js"></script>
+</html>

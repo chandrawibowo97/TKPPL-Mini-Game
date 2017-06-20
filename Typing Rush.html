@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en" id="write">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>Typing Rush</title>
+        <link rel="stylesheet" type="text/css" href="build/build.css">
+        <link rel="stylesheet" type="text/css" href="build/css/bootstrap.min.css">
+        <style>
+            html, body { 
+                height: 100%; width: 100%;}
+            body div.planeToRight {
+                position: fixed;
+                top: 0;
+                left: -600px;
+                background-size: 250px;
+                width: 300px;
+                height: 100px;
+                background-image: url('Image/Aircraft1.png');
+                background-repeat: no-repeat;
+            }
+            body div.missileToRight{
+                position: fixed;
+                display: none;
+                top: 100px;
+                width: 120px;
+                height: 120px;
+                margin: 0;
+                padding: 0;
+                background-size: 100px;
+                background-image: url('Image/Missile.png');
+                background-repeat: no-repeat;
+            }
+            body div.planeToLeft{
+                position: fixed;
+                top: 0;
+                left: 1300px;
+                background-size: 250px;
+                width: 300px;
+                height: 100px;
+                background-image: url('Image/Aircraft2.png');
+                background-repeat: no-repeat;
+            }
+            body div.missileToLeft{
+                position: fixed;
+                display: none;
+                top: 100px;
+                width: 120px;
+                height: 120px;
+                margin: 0;
+                padding: 0;
+                background-size: 100px;
+                background-image: url('Image/Missile2.png');
+                background-repeat: no-repeat;
+            }
+            body div.word{
+                font-size: 20px;
+                margin-top: -30px;
+                font-weight: bold;
+            }
+            body div.explosion{
+                background-image: url('Image/Meledak.png');
+                position: fixed;
+                display: none;
+                background-size: 80px;
+                top: 400px;
+                width: 80px;
+                height: 150px;
+                background-repeat: no-repeat;
+            }
+            body article section.bespoke-slide{
+                background-color: white;
+            }            
+            body div#btn1 button{
+                border: 2px bold;
+                padding: 3px;
+            }
+            body div#btn1 button h3{
+                margin: 0;
+            }
+            body span{
+                margin: 0;
+            }
+            body #score{
+                position: fixed;
+                top: 0;
+                right: 10px;
+            }
+        </style>
+        <!--function start-->
+        <script type="text/javascript">
+            var arr = [];
+            var ids = [];
+            var MissileLeftAnimation = [];
+            var MissileRightAnimation = [];
+            var myWord = ["area", "arena", "arch", "building", "barrel", "bond", "chopper", "chain", "cherish", "drop", "drag", "drone", "edge", "energy", "enemy", "flight", "fight", "fire", "gas", "gun", "guise", "help", "harm", "horn", "incident", "indicate", "intend", "jet", "jar", "jolt", "knock", "keep", "kick", "launch", "land", "lord", "move", "march", "mourn", "night", "negate", "nuke", "order", "ordinate", "ordeal", "plane", "plot", "panel", "quarrel", "quick", "quarry", "rifle", "range", "round", "soldier", "snow", "snap", "tank", "tools", "town", "uniform", "utility", "until", "vehicle", "verify", "view", "war", "wall", "watch", "yell", "yield", "yacht", "zone", "zap", "zero"];
+            var indexLeft = 1;
+            var indexRight = 1;
+            var countRight = 3;
+            var countLeft = 3;
+            var canDeploy = true;
+            var speed = 1.0;
+            var planeSpeed = 1.0;
+            var waitTime = 1500;
+            var text = "";
+            var typingIndex = -1;
+            var wordHook = -1;
+            var score = 0;
+            var difficulty = localStorage.getItem("difficulty");
+            if(difficulty == "hard")
+            {
+                waitTime = 1150;
+                planeSpeed = 2.0;
+                speed = 3.0;
+            }
+            function chance(percentage){
+                if(Math.floor(Math.random() * 100) <= percentage){
+                    return true;
+                }
+                return false;
+            }
+            function MoveMissile(id, pos, left){
+                document.getElementById("debugging").innerHTML = "";
+                for(var i = 0; i < arr.length; i++)
+                {
+                    document.getElementById("debugging").innerHTML += arr[i] + " (" + ids[i] + "), ";
+                }
+                var posx = pos;
+                var posy = 100;
+                if(left)
+                {
+                    MissileLeftAnimation[indexLeft] = setInterval(moveThem, 50);
+                }
+                else
+                {
+                    MissileRightAnimation[indexRight] = setInterval(moveThem, 50);
+                }
+                function moveThem(){
+                    if(posy >= 380)
+                    {
+                        localStorage.setItem("score", score);
+                        window.location.href = "./Result.html";
+                        document.getElementById(id).style.display = "none";
+                        clearInterval(MissileAnimation);
+                    }
+                    else
+                    {
+                        document.getElementById(id).style.top = posy + "px";
+                        document.getElementById(id).style.left = posx + "px";
+                        if(left)
+                            posx -= speed;
+                        else
+                            posx += speed;
+                        posy += speed;
+                    }
+                }
+            }
+            function generateWords(idx){
+                var b = false;
+                do{
+                    var selectedWord = Math.floor((Math.random() * 100)) % myWord.length;
+                    text = myWord[selectedWord];
+                    for(var j = 0; j < arr.length; j++){
+                        if(String(text).localeCompare(String(arr[j])) == 0)
+                        {
+                            b = true;
+                            break;
+                        }
+                        if(j == arr.length - 1)
+                            b = false;
+                    }
+                }
+                while(b);
+                arr.push(text);
+                ids.push(idx);
+                var obj = document.getElementById(idx).children;
+                for(var j = 0; j < 9; j++)
+                {
+                    document.getElementById(idx).children[j].innerHTML = "";
+                    document.getElementById(idx).children[j].style.color = "black";
+                }
+                for(var j = 0; j < text.length; j++)
+                {
+                    document.getElementById(idx).children[j].innerHTML = text[j];
+                }
+            }
+            function MovePlane(id, left){
+                var pos;
+                var movement;
+                if(left)
+                {
+                    movement = 0 - planeSpeed;
+                    pos = 1300;
+                }
+                else
+                {
+                    movement = planeSpeed;
+                    pos = -600;
+                }
+                var animation = setInterval(moveIt, 10);
+                function moveIt(){
+                    pos += movement;
+                    if(pos <= -600 && left)
+                    {
+                        clearInterval(animation);
+                        MovePlane("PR1", false);
+                        if(speed < 4 && difficulty == "easy")
+                        {
+                            speed += 0.2;
+                            planeSpeed += 0.1;
+                            waitTime -= 25;
+                        }
+                        else if(speed < 10 && difficulty == "hard")
+                        {
+                            speed += 0.2;
+                            planeSpeed += 0.1;
+                            waitTime -= 25;
+                        }
+                        countRight = 3;
+                    }
+                    else if(pos >= 1300 & !left)
+                    { 
+                        clearInterval(animation);
+                        MovePlane("PL1", true);
+                        if(speed < 4 && difficulty == "easy")
+                        {
+                            speed += 0.2;
+                            planeSpeed += 0.1;
+                            waitTime -= 35;
+                        }
+                        else if(speed < 10 && difficulty == "hard")
+                        {
+                            speed += 0.2;
+                            planeSpeed += 0.1;
+                            waitTime -= 35;
+                        }
+                        countLeft = 3;
+                    }
+                    else
+                        document.getElementById(id).style.left = pos + "px";
+                    if(left && pos < 800 && pos > 300)
+                    {
+                        if(canDeploy && countLeft > 0){
+                            countLeft -= 1;
+                            generateWords("WL" + String(indexLeft));
+                            document.getElementById("ML" + String(indexLeft)).style.top = "100px";
+                            document.getElementById("ML" + String(indexLeft)).style.left = pos + "px";
+                            document.getElementById("ML" + String(indexLeft)).style.display = "block";
+                            MoveMissile("ML" + String(indexLeft), pos, left);
+                            canDeploy = false;
+                            setTimeout(function deploy(){canDeploy = true;}, waitTime);
+                            indexLeft++;
+                            if(indexLeft == 4)
+                                indexLeft = 1;
+                        }
+                    }
+                    else if(!left && pos > 0 && pos < 500)
+                    {
+                        if(canDeploy && countRight > 0){
+                            countRight -= 1;
+                            generateWords("WR" + String(indexRight));
+                            document.getElementById("MR" + String(indexRight)).style.top = "100px";
+                            document.getElementById("MR" + String(indexRight)).style.left = pos + "px";
+                            document.getElementById("MR" + String(indexRight)).style.display = "block";
+                            MoveMissile("MR" + String(indexRight), pos, left);
+                            canDeploy = false;
+                            setTimeout(function deploy(){canDeploy = true;}, waitTime);
+                            indexRight++;
+                            if(indexRight == 4)
+                                indexRight = 1;
+                        }
+                    }
+                }
+            }
+            function Play(){
+                document.getElementById("btn1").style.display="none";
+                MovePlane("PR1", false);
+                for(var i = 0; i < 3; i++)
+                {
+                    MissileLeftAnimation.push(setInterval(function temp(){}), 1);
+                    clearInterval(MissileLeftAnimation[i]);
+                    MissileRightAnimation.push(setInterval(function temp(){}), 1);
+                    clearInterval(MissileRightAnimation[i]);
+                }
+            }
+            document.getElementById("write").addEventListener("keypress", function(event){
+                if(typingIndex == -1)
+                {
+                    for(var i = 0; i < arr.length; i++)
+                    {
+                        if(arr[i][0] == String.fromCharCode(event.keyCode))
+                        {
+                            typingIndex++;
+                            wordHook = i;
+                            document.getElementById(ids[i]).children[typingIndex].style.color = "yellow";
+                            break;
+                        }
+                    }
+                }
+                else if(arr[wordHook][typingIndex + 1] == String.fromCharCode(event.keyCode))
+                {
+                    typingIndex++;
+                    document.getElementById(ids[wordHook]).children[typingIndex].style.color = "yellow";
+                    if(typingIndex == arr[wordHook].length - 1)
+                    {
+                        if(ids[wordHook][1] == "L")
+                        {
+                            clearInterval(MissileLeftAnimation[Number(ids[wordHook][2])]);
+                        }
+                        else
+                        {
+                            clearInterval(MissileRightAnimation[Number(ids[wordHook][2])])
+                        }
+                        score += arr[wordHook].length;
+                        document.getElementById("score").innerHTML = "Score : " + score;
+                        document.getElementById("M" + ids[wordHook].substring(1, 4)).style.display = "none";
+                        arr.splice(wordHook, 1);
+                        ids.splice(wordHook, 1);
+                        wordHook = -1;
+                        typingIndex = -1;
+                        document.getElementById("debugging").innerHTML = "";
+                        for(var i = 0; i < arr.length; i++)
+                        {
+                            document.getElementById("debugging").innerHTML += arr[i] + " (" + ids[i] + "), ";
+                        }
+                    }
+                }
+            });
+        </script>
+    <!--function end-->
+    </head>
+    
+    <body>
+        <article>
+            <section>
+                <div id="debugging" style="display: none;">Debugging Mode Activated.</div>
+                <div id="score">Score : 0</div>
+                <div id="btn1"></div>
+                <div id="PR1" class="planeToRight"></div>
+                <div id="PL1" class="planeToLeft"></div>
+
+                <div id="ML1" class="missileToLeft">
+                    <div id="WL1" class="word">
+                        <span id="WL11"></span>
+                        <span id="WL12"></span>
+                        <span id="WL13"></span>
+                        <span id="WL14"></span>
+                        <span id="WL15"></span>
+                        <span id="WL16"></span>
+                        <span id="WL17"></span>
+                        <span id="WL18"></span>
+                        <span id="WL19"></span>
+                    </div>
+                </div>
+                <div id="ML2" class="missileToLeft">
+                    <div id="WL2" class="word">
+                        <span id="WL21"></span>
+                        <span id="WL22"></span>
+                        <span id="WL23"></span>
+                        <span id="WL24"></span>
+                        <span id="WL25"></span>
+                        <span id="WL26"></span>
+                        <span id="WL27"></span>
+                        <span id="WL28"></span>
+                        <span id="WL29"></span>
+                    </div>
+                </div>
+                <div id="ML3" class="missileToLeft">
+                    <div id="WL3" class="word">
+                        <span id="WL31"></span>
+                        <span id="WL32"></span>
+                        <span id="WL33"></span>
+                        <span id="WL34"></span>
+                        <span id="WL35"></span>
+                        <span id="WL36"></span>
+                        <span id="WL37"></span>
+                        <span id="WL38"></span>
+                        <span id="WL39"></span>
+                    </div>
+                </div>
+
+                <div id="MR1" class="missileToRight">
+                    <div id="WR1" class="word">
+                        <span id="WR11">A</span>
+                        <span id="WR12">A</span>
+                        <span id="WR13">A</span>
+                        <span id="WR14">A</span>
+                        <span id="WR15">A</span>
+                        <span id="WR16">A</span>
+                        <span id="WR17">A</span>
+                        <span id="WR18">A</span>
+                        <span id="WR19">A</span>
+                    </div>
+                </div>
+                <div id="MR2" class="missileToRight">
+                    <div id="WR2" class="word">
+                        <span id="WR21"></span>
+                        <span id="WR22"></span>
+                        <span id="WR23"></span>
+                        <span id="WR24"></span>
+                        <span id="WR25"></span>
+                        <span id="WR26"></span>
+                        <span id="WR27"></span>
+                        <span id="WR28"></span>
+                        <span id="WR29"></span>
+                    </div>
+                </div>
+                <div id="MR3" class="missileToRight">
+                    <div id="WR3" class="word">
+                        <span id="WR31"></span>
+                        <span id="WR32"></span>
+                        <span id="WR33"></span>
+                        <span id="WR34"></span>
+                        <span id="WR35"></span>
+                        <span id="WR36"></span>
+                        <span id="WR37"></span>
+                        <span id="WR38"></span>
+                        <span id="WR39"></span>
+                    </div>
+                </div>
+
+                <div id="E1" class="explosion"></div>
+                <div id="E2" class="explosion"></div>
+                <div id="E3" class="explosion"></div>
+                <div id="E4" class="explosion"></div>
+                <div id="E5" class="explosion"></div>
+                <div id="E6" class="explosion"></div>
+            </section>
+        </article>
+    </body>
+    <script src="build/build.js"></script>
+    <script type="text/javascript">
+        Play();
+    </script>
+</html>
+
+
